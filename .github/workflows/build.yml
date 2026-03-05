@@ -1,9 +1,7 @@
 name: Build Electron App
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:  # 手动触发
 
 jobs:
   build:
@@ -15,27 +13,29 @@ jobs:
       fail-fast: false
       max-parallel: 3
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        arch: [x64, arm64]
+        # os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
+        # arch: [x64, arm64]
+        arch: [x64]
         include:
-          - os: macos-latest
-            platform: mac
-            arch: x64
-          - os: macos-latest
-            platform: mac
-            arch: arm64
-          - os: ubuntu-latest
-            platform: linux
-            arch: x64
-          - os: ubuntu-latest
-            platform: linux
-            arch: arm64
+          # - os: macos-latest
+          #   platform: mac
+          #   arch: x64
+          # - os: macos-latest
+          #   platform: mac
+          #   arch: arm64
+          # - os: ubuntu-latest
+          #   platform: linux
+          #   arch: x64
+          # - os: ubuntu-latest
+          #   platform: linux
+          #   arch: arm64
           - os: windows-latest
             platform: win
             arch: x64
-          - os: windows-latest
-            platform: win
-            arch: arm64
+          # - os: windows-latest
+          #   platform: win
+          #   arch: arm64
 
 
     steps:
@@ -61,7 +61,8 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
+        # run: pnpm install --no-frozen-lockfile
 
       - name: Build code
         run: pnpm electron-vite build
@@ -83,26 +84,26 @@ jobs:
           overwrite: true
           if-no-files-found: error
 
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    needs: build
+  # release:
+  #   name: Create Release
+  #   runs-on: ubuntu-latest
+  #   needs: build
 
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: build-*
-          path: artifacts
+  #   steps:
+  #     - name: Download all artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         pattern: build-*
+  #         path: artifacts
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref_name }}
-          files: "artifacts/**/*"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.TUBOSHU_TOKEN }}
+  #     - name: Create Release
+  #       uses: softprops/action-gh-release@v2
+  #       with:
+  #         tag_name: ${{ github.ref }}
+  #         name: Release ${{ github.ref_name }}
+  #         files: "artifacts/**/*"
+  #         draft: false
+  #         prerelease: false
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.TUBOSHU_TOKEN }}
 
