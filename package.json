@@ -16,7 +16,7 @@
   "license": "ISC",
   "description": "tuboshu",
   "devDependencies": {
-    "electron": "^40.7.0",
+    "electron": "^41.0.3",
     "electron-builder": "^26.8.1",
     "electron-vite": "^5.0.0"
   },
