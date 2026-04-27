@@ -16,12 +16,12 @@
   "license": "ISC",
   "description": "tuboshu",
   "devDependencies": {
-    "electron": "^41.0.3",
+    "electron": "^41.3.0",
     "electron-builder": "^26.8.1",
     "electron-vite": "^5.0.0"
   },
   "dependencies": {
-    "fingerprint-generator": "^2.1.81"
+    "fingerprint-generator": "^2.1.82"
   },
   "build": {
     "appId": "com.tuboshu.tuboshu",
